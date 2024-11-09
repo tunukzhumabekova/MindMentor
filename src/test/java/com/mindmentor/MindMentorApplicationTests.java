@@ -1,4 +1,4 @@
-package com.example.mindmentor;
+package com.mindmentor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
