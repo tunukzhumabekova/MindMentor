@@ -1,7 +1,7 @@
 package com.mindmentor.controller;
 
-import com.example.public_.tables.records.ServiceRecord;
 import com.mindmentor.model.request.ServiceCreateRequest;
+import com.mindmentor.model.response.ServiceResponse;
 import com.mindmentor.service.ServiceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public class ServiceApi {
             summary = "Get Service by ID",
             description = "Fetches the details of a specific service by its ID."
     )
-    public ResponseEntity<Object> getServiceById(@PathVariable Integer serviceId) {
+    public ResponseEntity<Object> getServiceById(@PathVariable int serviceId) {
             return ResponseEntity.ok(service.getServiceById(serviceId));
     }
 
@@ -44,7 +44,7 @@ public class ServiceApi {
             summary = "Get All Services",
             description = "Fetches the list of all services."
     )
-    public List<ServiceRecord> getAllServices() {
+    public List<ServiceResponse> getAllServices() {
         return service.getAllServices();
     }
 
@@ -53,10 +53,10 @@ public class ServiceApi {
             summary = "Update Service",
             description = "Updates the details of an existing service."
     )
-    public ResponseEntity<String> updateService(@PathVariable Integer serviceId,
+    public ResponseEntity<String> updateService(@PathVariable int serviceId,
                                                 @RequestParam String name,
                                                 @RequestParam String description,
-                                                @RequestParam Integer usersId) {
+                                                @RequestParam int usersId) {
             service.updateService(serviceId, name, description, usersId);
             return ResponseEntity.ok("Service updated successfully.");
     }
@@ -66,7 +66,7 @@ public class ServiceApi {
             summary = "Delete Service",
             description = "Deletes an existing service by its ID."
     )
-    public ResponseEntity<String> deleteService(@PathVariable Integer serviceId) {
+    public ResponseEntity<String> deleteService(@PathVariable int serviceId) {
             service.deleteService(serviceId);
             return ResponseEntity.ok("Service deleted successfully.");
     }

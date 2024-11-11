@@ -1,8 +1,5 @@
 package com.mindmentor.model.response;
 
-import com.example.public_.tables.records.CoursesRecord;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import java.util.List;
 
 public record MentorProfileResponse (
@@ -13,9 +10,7 @@ public record MentorProfileResponse (
         int experience,
         String aboutMentor,
         String videoUrl,
-        @JsonManagedReference
-        List<CoursesRecord> courses,
-        @JsonManagedReference
+        List<CourseResponse> courses,
         List<ServiceResponse> services
 ){
 }

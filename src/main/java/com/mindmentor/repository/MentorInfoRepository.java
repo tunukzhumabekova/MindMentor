@@ -4,6 +4,7 @@ import com.example.public_.enums.Role;
 import com.example.public_.enums.Status;
 import com.example.public_.tables.records.*;
 import com.mindmentor.model.request.MentorCreateRequest;
+import com.mindmentor.model.response.CourseResponse;
 import com.mindmentor.model.response.MentorGetAllResponse;
 import com.mindmentor.model.response.MentorProfileResponse;
 import com.mindmentor.model.response.ServiceResponse;
@@ -84,13 +85,30 @@ public class MentorInfoRepository {
                 .where(USERS.ID.eq(mentorRecord.getUsersId()))
                 .fetchOne();
 
+        assert userRecord != null;
+
         DirectionRecord directionRecord = dslContext.selectFrom(DIRECTION)
                 .where(DIRECTION.ID.eq(mentorRecord.getDirectionId()))
                 .fetchOne();
 
-        List<CoursesRecord> courses = dslContext.selectFrom(COURSES)
+        assert directionRecord != null;
+
+        List<CoursesRecord> coursesRecords = dslContext.selectFrom(COURSES)
                 .where(COURSES.MENTOR_INFO_ID.eq(mentorInfoId))
                 .fetchInto(CoursesRecord.class);
+
+        List<CourseResponse> courses = new ArrayList<>();
+        for (CoursesRecord course : coursesRecords) {
+            CourseResponse courseResponse = new CourseResponse(
+                    course.getCourseName(),
+                    course.getDescription(),
+                    course.getFileUrl(),
+                    course.getPrice(),
+                    userRecord.getFio(),
+                    userRecord.getImage()
+            );
+            courses.add(courseResponse);
+        }
 
         List<ServiceRecord> services = dslContext.selectFrom(SERVICE)
                 .where(SERVICE.USERS_ID.eq(mentorRecord.getUsersId()))
@@ -111,9 +129,6 @@ public class MentorInfoRepository {
                 ));
             }
         }
-
-        assert userRecord != null;
-        assert directionRecord != null;
 
         return new MentorProfileResponse(
                 userRecord.getFio(),
@@ -168,6 +183,15 @@ public class MentorInfoRepository {
             assert directionRecord != null;
             assert userRecord != null;
 
+            List<ServiceResponse> serviceResponses = new ArrayList<>();
+            for (ServiceRecord serviceRecord : services) {
+                ServiceResponse serviceResponse = new ServiceResponse(
+                        serviceRecord.getName()
+                );
+
+                serviceResponses.add(serviceResponse);
+            }
+
             MentorGetAllResponse response = new MentorGetAllResponse(
                     userRecord.getFio(),
                     userRecord.getImage(),
@@ -175,7 +199,7 @@ public class MentorInfoRepository {
                     mentorRecord.getExperience(),
                     mentorRecord.getAboutMentor(),
                     mentorRecord.getVideoUrl(),
-                    services,
+                    serviceResponses,
                     averageRating,
                     price
             );

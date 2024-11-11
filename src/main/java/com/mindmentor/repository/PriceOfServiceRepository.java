@@ -1,9 +1,11 @@
 package com.mindmentor.repository;
 
 import com.example.public_.tables.records.PriceOfServiceRecord;
+import com.mindmentor.model.response.PriceOfServiceResponse;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,8 +19,8 @@ public class PriceOfServiceRepository {
         this.dslContext = dslContext;
     }
 
-    public Integer savePriceOfService(Double price, Integer mentorId, Integer serviceId) {
-        return Objects.requireNonNull(dslContext.insertInto(PRICE_OF_SERVICE, PRICE_OF_SERVICE.PRICE,
+    public void savePriceOfService(double price, int mentorId, int serviceId) {
+        Objects.requireNonNull(dslContext.insertInto(PRICE_OF_SERVICE, PRICE_OF_SERVICE.PRICE,
                                 PRICE_OF_SERVICE.MENTOR_ID, PRICE_OF_SERVICE.SERVICE_ID)
                         .values(price, mentorId, serviceId)
                         .returning(PRICE_OF_SERVICE.ID)
@@ -26,19 +28,39 @@ public class PriceOfServiceRepository {
                 .getId();
     }
 
-    public PriceOfServiceRecord getPriceOfServiceById(Integer priceOfServiceId) {
-        return dslContext.selectFrom(PRICE_OF_SERVICE)
+    public PriceOfServiceResponse getPriceOfServiceById(int priceOfServiceId) {
+        PriceOfServiceRecord record = dslContext.selectFrom(PRICE_OF_SERVICE)
                 .where(PRICE_OF_SERVICE.ID.eq(priceOfServiceId))
                 .fetchOne();
+
+        assert record != null;
+
+        return new PriceOfServiceResponse(
+                record.getId(),
+                record.getPrice(),
+                record.getMentorId(),
+                record.getServiceId()
+        );
     }
 
-    public List<PriceOfServiceRecord> getAllPricesOfService() {
-        return dslContext.selectFrom(PRICE_OF_SERVICE)
-                .fetch();
+    public List<PriceOfServiceResponse> getAllPricesOfService() {
+        List<PriceOfServiceRecord> records = dslContext.selectFrom(PRICE_OF_SERVICE)
+                .fetchInto(PriceOfServiceRecord.class);
+
+        List<PriceOfServiceResponse> responses = new ArrayList<>();
+        for (PriceOfServiceRecord record : records) {
+            responses.add(new PriceOfServiceResponse(
+                    record.getId(),
+                    record.getPrice(),
+                    record.getMentorId(),
+                    record.getServiceId()
+            ));
+        }
+        return responses;
     }
 
-    public Integer updatePriceOfService(Integer priceOfServiceId, Double price, Integer mentorId, Integer serviceId) {
-        return dslContext.update(PRICE_OF_SERVICE)
+    public void updatePriceOfService(int priceOfServiceId, double price, int mentorId, int serviceId) {
+        dslContext.update(PRICE_OF_SERVICE)
                 .set(PRICE_OF_SERVICE.PRICE, price)
                 .set(PRICE_OF_SERVICE.MENTOR_ID, mentorId)
                 .set(PRICE_OF_SERVICE.SERVICE_ID, serviceId)
@@ -46,8 +68,8 @@ public class PriceOfServiceRepository {
                 .execute();
     }
 
-    public Integer deletePriceOfService(Integer priceOfServiceId) {
-        return dslContext.deleteFrom(PRICE_OF_SERVICE)
+    public void deletePriceOfService(int priceOfServiceId) {
+        dslContext.deleteFrom(PRICE_OF_SERVICE)
                 .where(PRICE_OF_SERVICE.ID.eq(priceOfServiceId))
                 .execute();
     }

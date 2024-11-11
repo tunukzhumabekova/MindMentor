@@ -1,7 +1,7 @@
 package com.mindmentor.service.impl;
 
-import com.example.public_.tables.records.ServiceRecord;
 import com.mindmentor.model.request.ServiceCreateRequest;
+import com.mindmentor.model.response.ServiceResponse;
 import com.mindmentor.repository.ServiceRepository;
 import com.mindmentor.service.ServiceService;
 import lombok.RequiredArgsConstructor;
@@ -20,22 +20,22 @@ public class ServiceServiceImpl implements ServiceService {
     }
 
     @Override
-    public ServiceRecord getServiceById(Integer serviceId) {
+    public ServiceResponse getServiceById(int serviceId) {
         return serviceRepository.getServiceById(serviceId);
     }
 
     @Override
-    public List<ServiceRecord> getAllServices() {
+    public List<ServiceResponse> getAllServices() {
         return serviceRepository.getAllServices();
     }
 
     @Override
-    public void updateService(Integer serviceId, String name, String description, Integer usersId) {
+    public void updateService(int serviceId, String name, String description, int usersId) {
         serviceRepository.updateService(serviceId, name, description, usersId);
     }
 
     @Override
-    public void deleteService(Integer serviceId) {
+    public void deleteService(int serviceId) {
         serviceRepository.deleteService(serviceId);
     }
 }

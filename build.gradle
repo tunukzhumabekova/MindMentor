@@ -37,6 +37,50 @@ repositories {
 }
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
+	implementation 'org.postgresql:postgresql'
+	implementation 'org.json:json:20231013'
+	implementation 'io.jsonwebtoken:jjwt:0.12.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+	implementation 'com.auth0:java-jwt:3.18.1'
+	implementation 'org.flywaydb:flyway-core:10.4.0'
+	implementation 'org.flywaydb:flyway-database-postgresql:10.4.1'
+	implementation 'org.apache.commons:commons-compress:1.26.0'
+	implementation 'com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0'
+	implementation 'software.amazon.awssdk:s3:2.20.42'
+	implementation 'software.amazon.awssdk:auth:2.20.42'
+
+	// OpenAPI/Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+	// Jackson (рекомендуется использовать версии, совместимые с вашими библиотеками)
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.15.3'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.3'
+
+	// Тестирование
+	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers:3.2.3'
+	testImplementation 'org.testcontainers:postgresql:1.19.6'
+	testImplementation 'org.testcontainers:testcontainers:1.19.6'
+	testImplementation 'org.testcontainers:junit-jupiter:1.19.6'
+	testImplementation 'org.assertj:assertj-core:3.25.3'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	jooqGenerator 'org.postgresql:postgresql:42.6.0'
+}
+
+/*dependencies {
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
@@ -79,7 +123,14 @@ dependencies {
 
 	implementation 'software.amazon.awssdk:s3:2.20.42'
 	implementation 'software.amazon.awssdk:auth:2.20.42'
-}
+
+// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.7.0'
+
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.15.3'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.3'
+}*/
 
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'
