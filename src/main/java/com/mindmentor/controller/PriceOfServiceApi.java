@@ -1,6 +1,6 @@
 package com.mindmentor.controller;
 
-import com.example.public_.tables.records.PriceOfServiceRecord;
+import com.mindmentor.model.response.PriceOfServiceResponse;
 import com.mindmentor.service.PriceOfServiceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,9 +23,9 @@ public class PriceOfServiceApi {
             summary = "Create Price of Service",
             description = "Creates a new price record for a service and mentor."
     )
-    public ResponseEntity<String> createPriceOfService(@RequestParam Double name,
-                                                       @RequestParam Integer mentorId,
-                                                       @RequestParam Integer serviceId) {
+    public ResponseEntity<String> createPriceOfService(@RequestParam double name,
+                                                       @RequestParam int mentorId,
+                                                       @RequestParam int serviceId) {
             priceOfServiceService.savePriceOfService(name, mentorId, serviceId);
             return ResponseEntity.ok("Price of service created successfully");
     }
@@ -35,9 +35,8 @@ public class PriceOfServiceApi {
             summary = "Get Price of Service by ID",
             description = "Fetches the details of a price record by its ID."
     )
-    public ResponseEntity<Object> getPriceOfServiceById(@PathVariable Integer priceOfServiceId) {
-            PriceOfServiceRecord record = priceOfServiceService.getPriceOfServiceById(priceOfServiceId);
-            return ResponseEntity.ok(record);
+    public PriceOfServiceResponse getPriceOfServiceById(@PathVariable int priceOfServiceId) {
+            return priceOfServiceService.getPriceOfServiceById(priceOfServiceId);
     }
 
     @GetMapping("/all")
@@ -45,7 +44,7 @@ public class PriceOfServiceApi {
             summary = "Get All Prices of Services",
             description = "Fetches a list of all price records."
     )
-    public List<PriceOfServiceRecord> getAllPricesOfService() {
+    public List<PriceOfServiceResponse> getAllPricesOfService() {
         return priceOfServiceService.getAllPricesOfService();
     }
 
@@ -54,10 +53,10 @@ public class PriceOfServiceApi {
             summary = "Update Price of Service",
             description = "Updates an existing price record for a service and mentor."
     )
-    public ResponseEntity<String> updatePriceOfService(@PathVariable Integer priceOfServiceId,
-                                                       @RequestParam Double price,
-                                                       @RequestParam Integer mentorId,
-                                                       @RequestParam Integer serviceId) {
+    public ResponseEntity<String> updatePriceOfService(@PathVariable int priceOfServiceId,
+                                                       @RequestParam double price,
+                                                       @RequestParam int mentorId,
+                                                       @RequestParam int serviceId) {
             priceOfServiceService.updatePriceOfService(priceOfServiceId, price, mentorId, serviceId);
             return ResponseEntity.ok("Price of service updated successfully.");
     }
@@ -67,7 +66,7 @@ public class PriceOfServiceApi {
             summary = "Delete Price of Service",
             description = "Deletes a price record by its ID."
     )
-    public ResponseEntity<String> deletePriceOfService(@PathVariable Integer priceOfServiceId) {
+    public ResponseEntity<String> deletePriceOfService(@PathVariable int priceOfServiceId) {
             priceOfServiceService.deletePriceOfService(priceOfServiceId);
             return ResponseEntity.ok("Price of service deleted successfully.");
     }

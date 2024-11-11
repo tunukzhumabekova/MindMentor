@@ -1,11 +1,11 @@
 package com.mindmentor.controller;
 
-import com.example.public_.tables.records.DirectionRecord;
+import com.mindmentor.model.response.DirectionResponse;
 import com.mindmentor.service.DirectionService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,13 +25,13 @@ public class DirectionApi {
 
     @GetMapping("/{directionId}")
     @Operation(summary = "Get Direction by ID", description = "Retrieves a direction by its ID.")
-    public DirectionRecord getDirectionById(@PathVariable int directionId) {
+    public DirectionResponse getDirectionById(@PathVariable int directionId) {
         return directionService.getDirectionById(directionId);
     }
 
     @GetMapping("/")
     @Operation(summary = "Get All Directions", description = "Retrieves all directions.")
-    public List<DirectionRecord> getAllDirections() {
+    public List<DirectionResponse> getAllDirections() {
         return directionService.getAllDirections();
     }
 

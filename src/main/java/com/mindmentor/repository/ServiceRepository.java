@@ -1,10 +1,13 @@
 package com.mindmentor.repository;
 
+import com.example.public_.tables.records.PriceOfServiceRecord;
 import com.example.public_.tables.records.ServiceRecord;
 import com.mindmentor.model.request.ServiceCreateRequest;
+import com.mindmentor.model.response.ServiceResponse;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.public_.tables.PriceOfService.PRICE_OF_SERVICE;
@@ -45,18 +48,50 @@ public class ServiceRepository {
                 .execute();
     }
 
-    public ServiceRecord getServiceById(Integer serviceId) {
-        return dslContext.selectFrom(SERVICE)
+    public ServiceResponse getServiceById(int serviceId) {
+        ServiceRecord serviceRecord = dslContext.selectFrom(SERVICE)
                 .where(SERVICE.ID.eq(serviceId))
                 .fetchOne();
+
+        assert serviceRecord != null;
+
+        PriceOfServiceRecord priceRecord = dslContext.selectFrom(PRICE_OF_SERVICE)
+                .where(PRICE_OF_SERVICE.SERVICE_ID.eq(serviceId))
+                .fetchOne();
+
+        double price = (priceRecord != null) ? priceRecord.getPrice() : 0;
+
+        return new ServiceResponse(
+                serviceRecord.getId(),
+                serviceRecord.getName(),
+                serviceRecord.getDescription()
+                /*price*/
+        );
     }
 
-    public List<ServiceRecord> getAllServices() {
-        return dslContext.selectFrom(SERVICE)
-                .fetch();
+    public List<ServiceResponse> getAllServices() {
+        List<ServiceRecord> serviceRecords = dslContext.selectFrom(SERVICE)
+                .fetchInto(ServiceRecord.class);
+
+        List<ServiceResponse> responses = new ArrayList<>();
+        for (ServiceRecord serviceRecord : serviceRecords) {
+            PriceOfServiceRecord priceRecord = dslContext.selectFrom(PRICE_OF_SERVICE)
+                    .where(PRICE_OF_SERVICE.SERVICE_ID.eq(serviceRecord.getId()))
+                    .fetchOne();
+
+            double price = (priceRecord != null) ? priceRecord.getPrice() : 0;
+
+            responses.add(new ServiceResponse(
+                    serviceRecord.getId(),
+                    serviceRecord.getName(),
+                    serviceRecord.getDescription(),
+                    price
+            ));
+        }
+        return responses;
     }
 
-    public void updateService(Integer serviceId, String name, String description, Integer usersId) {
+    public void updateService(int serviceId, String name, String description, int usersId) {
         dslContext.update(SERVICE)
                 .set(SERVICE.NAME, name)
                 .set(SERVICE.DESCRIPTION, description)
@@ -65,7 +100,7 @@ public class ServiceRepository {
                 .execute();
     }
 
-    public void deleteService(Integer serviceId) {
+    public void deleteService(int serviceId) {
         dslContext.deleteFrom(SERVICE)
                 .where(SERVICE.ID.eq(serviceId))
                 .execute();

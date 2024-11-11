@@ -1,13 +1,13 @@
 package com.mindmentor.service;
 
-import com.example.public_.tables.records.PriceOfServiceRecord;
+import com.mindmentor.model.response.PriceOfServiceResponse;
 
 import java.util.List;
 
 public interface PriceOfServiceService {
-    Integer savePriceOfService(Double price, Integer mentorId, Integer serviceId);
-    PriceOfServiceRecord getPriceOfServiceById(Integer priceOfServiceId);
-    List<PriceOfServiceRecord> getAllPricesOfService();
-    Integer updatePriceOfService(Integer priceOfServiceId, Double price, Integer mentorId, Integer serviceId);
-    Integer deletePriceOfService(Integer priceOfServiceId);
+    void savePriceOfService(double price, int mentorId, int serviceId);
+    PriceOfServiceResponse getPriceOfServiceById(int priceOfServiceId);
+    List<PriceOfServiceResponse> getAllPricesOfService();
+    void updatePriceOfService(int priceOfServiceId, double price, int mentorId, int serviceId);
+    void deletePriceOfService(int priceOfServiceId);
 }

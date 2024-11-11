@@ -2,6 +2,7 @@ package com.mindmentor.service.impl;
 
 import com.example.public_.tables.records.DirectionRecord;
 import com.mindmentor.exceptions.NotFoundException;
+import com.mindmentor.model.response.DirectionResponse;
 import com.mindmentor.repository.DirectionRepository;
 import com.mindmentor.service.DirectionService;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,11 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
-    public DirectionRecord getDirectionById(int directionId) {
+    public DirectionResponse getDirectionById(int directionId) {
         if (directionId <= 0) {
             throw new IllegalArgumentException("Direction ID must be positive");
         }
-        DirectionRecord direction = directionRepository.getDirectionById(directionId);
+        DirectionResponse direction = directionRepository.getDirectionById(directionId);
         if (direction == null) {
             throw new NotFoundException("Direction with ID " + directionId + " not found");
         }
@@ -38,7 +39,7 @@ public class DirectionServiceImpl implements DirectionService {
     }
 
     @Override
-    public List<DirectionRecord> getAllDirections() {
+    public List<DirectionResponse> getAllDirections() {
         return directionRepository.getAllDirections();
     }
 

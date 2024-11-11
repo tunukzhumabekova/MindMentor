@@ -1,10 +1,10 @@
 package com.mindmentor.model.request;
 
 public record ServiceCreateRequest (
-        Integer mentorId,
+        int mentorId,
         String service_name,
         String service_description,
-        Double price,
-        Integer userInfoId
+        double price,
+        int userInfoId
 ) {
 }

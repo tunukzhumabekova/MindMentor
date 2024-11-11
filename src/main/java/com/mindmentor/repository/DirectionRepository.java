@@ -1,9 +1,11 @@
 package com.mindmentor.repository;
 
 import com.example.public_.tables.records.DirectionRecord;
+import com.mindmentor.model.response.DirectionResponse;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,15 +27,35 @@ public class DirectionRepository {
                 .getId();
     }
 
-    public DirectionRecord getDirectionById(int directionId) {
-        return dslContext.selectFrom(DIRECTION)
+    public DirectionResponse getDirectionById(int directionId) {
+        DirectionRecord directionRecord = dslContext.selectFrom(DIRECTION)
                 .where(DIRECTION.ID.eq(directionId))
                 .fetchOne();
+
+        assert directionRecord != null;
+
+        return new DirectionResponse(
+                directionRecord.getId(),
+                directionRecord.getName()
+        );
     }
 
-    public List<DirectionRecord> getAllDirections() {
-        return dslContext.selectFrom(DIRECTION)
+    public List<DirectionResponse> getAllDirections() {
+        List<DirectionRecord> directionRecords = dslContext.selectFrom(DIRECTION)
                 .fetch();
+
+        List<DirectionResponse> directionResponses = new ArrayList<>();
+
+        for (DirectionRecord directionRecord : directionRecords) {
+            DirectionResponse directionResponse = new DirectionResponse(
+                    directionRecord.getId(),
+                    directionRecord.getName()
+            );
+
+            directionResponses.add(directionResponse);
+        }
+
+        return directionResponses;
     }
 
     public int updateDirection(int directionId, String name) {

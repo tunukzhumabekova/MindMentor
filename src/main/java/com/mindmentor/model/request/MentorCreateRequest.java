@@ -3,12 +3,12 @@ package com.mindmentor.model.request;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public record MentorCreateRequest (
-        Integer directionId,
+        int directionId,
         String language,
-        Integer experience,
+        int experience,
         String aboutMentor,
         String videoUrl,
-        Integer usersId,
+        int usersId,
         @JsonManagedReference
         MentorProfileRequest profileRequest
 ) {
