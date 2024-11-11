@@ -40,8 +40,7 @@ CREATE TABLE users_info (
 
 CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
-                       name VARCHAR NOT NULL,
-                       surname VARCHAR UNIQUE,
+                       fio VARCHAR NOT NULL,
                        image VARCHAR,
                        date_of_registration TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        status status,
@@ -104,11 +103,27 @@ CREATE TABLE feedback (
 
 CREATE TABLE courses (
                          id SERIAL PRIMARY KEY,
-                         users_id INTEGER REFERENCES users(id),
+                         course_name VARCHAR NOT NULL,
+                         description VARCHAR,
+                         file_url VARCHAR,
+                         price DOUBLE PRECISION,
+                         language VARCHAR NOT NULL,
+                         what_you_will_learn VARCHAR,
+                         last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                          mentor_info_id INTEGER REFERENCES mentor_info(id),
                          direction_id INTEGER REFERENCES direction(id)
 );
 
+CREATE TABLE user_courses (
+                              id SERIAL PRIMARY KEY,
+                              users_info_id INTEGER REFERENCES users(id),
+                              courses_id INTEGER REFERENCES courses(id)
+);
+
+
+ALTER TABLE user_courses
+    ADD CONSTRAINT fk_user_courses_users_info_id FOREIGN KEY (users_info_id) REFERENCES users_info(id),
+    ADD CONSTRAINT fk_user_courses_courses_id FOREIGN KEY (courses_id) REFERENCES courses(id);
 
 ALTER TABLE users
     ADD CONSTRAINT fk_users_users_info_id FOREIGN KEY (users_info_id) REFERENCES users_info (id);
@@ -133,6 +148,5 @@ ALTER TABLE feedback
   ADD CONSTRAINT fk_feedback_mentor_info_id FOREIGN KEY (mentor_info_id) REFERENCES mentor_info (id);
 
 ALTER TABLE courses
-    ADD CONSTRAINT fk_courses_users_id FOREIGN KEY (users_id) REFERENCES users (id),
   ADD CONSTRAINT fk_courses_mentor_info_id FOREIGN KEY (mentor_info_id) REFERENCES mentor_info (id),
   ADD CONSTRAINT fk_courses_direction_id FOREIGN KEY (direction_id) REFERENCES direction (id);

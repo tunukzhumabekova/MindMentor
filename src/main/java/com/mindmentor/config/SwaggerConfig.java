@@ -19,7 +19,10 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes(API_KEY, apiKeySecuritySchema()))
-                .info(new Info().title("Mind-Mentor"))
+                .info(new Info()
+                        .title("Mind-Mentor API")
+                        .description("API documentation for Mind-Mentor application")
+                        .version("1.0.0"))
                 .security(Collections.singletonList(new SecurityRequirement().addList(API_KEY)));
     }
 

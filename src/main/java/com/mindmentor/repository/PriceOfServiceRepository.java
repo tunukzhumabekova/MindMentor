@@ -17,7 +17,7 @@ public class PriceOfServiceRepository {
         this.dslContext = dslContext;
     }
 
-    public int savePriceOfService(double price, int mentorId, int serviceId) {
+    public Integer savePriceOfService(Double price, Integer mentorId, Integer serviceId) {
         return Objects.requireNonNull(dslContext.insertInto(PRICE_OF_SERVICE, PRICE_OF_SERVICE.PRICE,
                                 PRICE_OF_SERVICE.MENTOR_ID, PRICE_OF_SERVICE.SERVICE_ID)
                         .values(price, mentorId, serviceId)
@@ -26,7 +26,7 @@ public class PriceOfServiceRepository {
                 .getId();
     }
 
-    public PriceOfServiceRecord getPriceOfServiceById(int priceOfServiceId) {
+    public PriceOfServiceRecord getPriceOfServiceById(Integer priceOfServiceId) {
         return dslContext.selectFrom(PRICE_OF_SERVICE)
                 .where(PRICE_OF_SERVICE.ID.eq(priceOfServiceId))
                 .fetchOne();
@@ -37,7 +37,7 @@ public class PriceOfServiceRepository {
                 .fetch();
     }
 
-    public int updatePriceOfService(int priceOfServiceId, double price, int mentorId, int serviceId) {
+    public Integer updatePriceOfService(Integer priceOfServiceId, Double price, Integer mentorId, Integer serviceId) {
         return dslContext.update(PRICE_OF_SERVICE)
                 .set(PRICE_OF_SERVICE.PRICE, price)
                 .set(PRICE_OF_SERVICE.MENTOR_ID, mentorId)
@@ -46,7 +46,7 @@ public class PriceOfServiceRepository {
                 .execute();
     }
 
-    public int deletePriceOfService(int priceOfServiceId) {
+    public Integer deletePriceOfService(Integer priceOfServiceId) {
         return dslContext.deleteFrom(PRICE_OF_SERVICE)
                 .where(PRICE_OF_SERVICE.ID.eq(priceOfServiceId))
                 .execute();
