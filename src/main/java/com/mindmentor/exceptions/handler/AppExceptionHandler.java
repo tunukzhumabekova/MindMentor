@@ -1,8 +1,8 @@
 package com.mindmentor.exceptions.handler;
 
-import com.example.mindmentor.exceptions.*;
 import com.mindmentor.exceptions.*;
 import com.mindmentor.exceptions.IllegalArgumentException;
+import com.mindmentor.exceptions.IllegalStateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,8 +72,19 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        ExceptionResponse response = ExceptionResponse.builder()
+                .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .exceptionClassName(e.getClass().getSimpleName())
+                .message(e.getMessage())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ExceptionResponse> handleIllegalStateException(IllegalStateException e) {
         ExceptionResponse response = ExceptionResponse.builder()
                 .httpStatus(HttpStatus.CONFLICT)
                 .exceptionClassName(e.getClass().getSimpleName())

@@ -5,6 +5,7 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.public_.tables.Direction.DIRECTION;
 
@@ -17,10 +18,10 @@ public class DirectionRepository {
     }
 
     public int createDirection(String name) {
-        return dslContext.insertInto(DIRECTION, DIRECTION.NAME)
-                .values(name)
-                .returning(DIRECTION.ID)
-                .fetchOne()
+        return Objects.requireNonNull(dslContext.insertInto(DIRECTION, DIRECTION.NAME)
+                        .values(name)
+                        .returning(DIRECTION.ID)
+                        .fetchOne())
                 .getId();
     }
 

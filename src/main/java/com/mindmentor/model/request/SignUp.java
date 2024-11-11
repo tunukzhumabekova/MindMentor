@@ -13,11 +13,8 @@ public record SignUp(
         @NotBlank(message = "Password is mandatory")
         String password,
 
-        @NotBlank(message = "First name is mandatory")
-        String firstName,
-
-        @NotBlank(message = "Last name is mandatory")
-        String lastName,
+        @NotBlank(message = "Fio is mandatory")
+        String fio,
 
         @NotNull(message = "Role is mandatory")
         Role role
