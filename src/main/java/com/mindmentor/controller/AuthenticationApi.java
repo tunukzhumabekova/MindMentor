@@ -25,20 +25,14 @@ public class AuthenticationApi {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/sign-up")
-    @Operation(
-            summary = "Sign Up",
-            description = "Registers a new user with the provided sign-up details. This endpoint creates a new user account in the system."
-    )
+    @Operation(summary = "Sign Up", description = "Registers a new user with the provided sign-up details. This endpoint creates a new user account in the system.")
     public Authentication signUp(
             @Valid @RequestBody SignUp signUp) {
         return authenticationService.signUp(signUp);
     }
 
     @PostMapping("/sign-in")
-    @Operation(
-            summary = "Sign In",
-            description = "Authenticates the user and returns an authentication response, which includes an access token and other relevant information. The user must provide their valid sign-in credentials."
-    )
+    @Operation(summary = "Sign In", description = "Authenticates the user and returns an authentication response, which includes an access token and other relevant information. The user must provide their valid sign-in credentials.")
     public Authentication signIn(
             @RequestBody SignIn signIn) {
         return authenticationService.signIn(signIn);
